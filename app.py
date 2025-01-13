@@ -1,9 +1,13 @@
 from flask import Flask, request, render_template, redirect,url_for, session, flash
 from datetime import * 
 from contextlib import contextmanager
-import locale
 import sqlite3
-locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
+import locale
+try:
+    locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
+except locale.Error:
+    locale.setlocale(locale.LC_TIME, "C")
+
 
 # Création du serveur
 app = Flask(__name__)
