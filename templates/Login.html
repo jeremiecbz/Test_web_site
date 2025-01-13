@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Infos de la page et métadonnées -->
+  <meta charset="utf-8" />
+  <title>Login | Agenda {{session['classe']}}</title> <!-- Sera affiché dans l'onglet du navigateur-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='/Styles/login.css') }}" />
+
+  <link rel="icon" href="{{url_for('static', filename ='/Images/Suisse-drapeau.svg')}}" type="img/sbg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Contenu de la page -->
+
+
+  <nav id="main-nav"><!-- Navigateur Gauche-->
+    <div class="nav-container">
+      <a class="a-nav " href="{{url_for('index')}}"><img
+          src="{{url_for('static', filename = '/Images/Accueil-Logo.png')}}" draggable="false"></a>
+
+      <a class="a-nav" href="{{url_for('devoirs')}}"><img
+          src="{{url_for('static', filename = '/Images/Logo-devoir.png')}}" draggable="false"></a>
+
+      <a class="a-nav" href="{{url_for('test')}}"><img src="{{url_for('static', filename = '/Images/Test-Logo.png')}}"
+          draggable="false"></a>
+      <a class="a-nav" href="{{url_for('event')}}"><img focusable="false"
+          src="{{url_for('static', filename = '/Images/Calendrier-Logo.png')}}" draggable="false">
+    </div>
+
+    <div class="nav-container">
+      <!-- Lien collé en bas-->
+      <a class="a-nav" href="{{url_for('parametres')}}"><img
+          src="{{url_for('static', filename = '/Images/Parametre-Logo.png')}}" draggable="false"></a>
+
+      <a class="a-nav " href="{{url_for('account')}}"><img
+          src="{{url_for('static', filename = '/Images/Profil-Logo.png')}}" draggable="false"> </a>
+
+    </div>
+  </nav>
+
+  <header>
+    <div class="header-left">
+      <h1><a class="header" href="{{url_for('index')}}">Login</a></h1>
+    </div>
+    <div class="header-right">
+      <a href="{{url_for('test')}}"><button class="test">
+          Test
+        </button></a>
+
+      <a href="{{url_for('event')}}">
+        <button class="event">
+          Événement
+        </button></a>
+
+      <a href="{{url_for('devoirs')}}"><button class="devoir">
+          Devoirs
+        </button></a>
+
+        <a href="{{url_for('parametres')}}"><img src="{{url_for('static', filename = '/Images/Parametre-Logo.png')}}"/></a>
+      </div>
+  </header>
+  <main>
+      <form action="{{url_for('try_login')}}" method="post">
+          <div class="login-box">
+              <h2>Se connecter</h2>
+              <div class="input-box">
+                  <label for="email">E-mail</label>
+                  <input type="text" id="email" class="option-login" name="e_mail" placeholder="Entrez votre e-mail" required>
+              </div>
+              <div class="input-box">
+                  <label for="password">Mot de passe</label>
+                  <input type="password" id="password" class="option-login" name="mot_de_passe" placeholder="Entrez votre mot de passe" required>
+              </div>
+              <button class="connexion" type="submit">Connexion</button>
+              <div class="extra">
+                  <p><a href="{{url_for('new_account')}}">Pas de Compte ?</a></p>
+              </div>
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <div class="message">{{ messages[0] }}</div>
+              {% endif %}
+              {% endwith %}
+          </div>
+      </form>
+  </main>
+  
+ 
+  
+
+
+  <footer class="simple-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Jérémie Corbaz. Tous droits réservés.</p>
+      <ul>
+        <li><strong>Étudiant :</strong> Gymnase de Burier, Suisse</li>
+        <li><strong>E-mail :</strong> jeremie.corbaz@eduvaud.ch</li>
+      </ul>
+      <p>
+        Retrouvez-moi sur :
+        <a href="https://www.instagram.com/jeremie.cbz/" target="_blank">Instagram </a> |
+        <a href="https://github.com/jeremiecbz" target="_blank">GitHub</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html> <!-- EOF -->

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Infos de la page et métadonnées -->
+  <meta charset="utf-8" />
+  <title>Créer mon Compte | Agenda {{session['classe']}}</title> <!-- Sera affiché dans l'onglet du navigateur-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='/Styles/login.css') }}" />
+
+  <link rel="icon" href="{{url_for('static', filename ='/Images/Suisse-drapeau.svg')}}" type="img/sbg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Contenu de la page -->
+
+
+  <nav id="main-nav"><!-- Navigateur Gauche-->
+    <div class="nav-container">
+      <a class="a-nav " href="{{url_for('index')}}"><img
+          src="{{url_for('static', filename = '/Images/Accueil-Logo.png')}}" draggable="false"></a>
+
+      <a class="a-nav" href="{{url_for('devoirs')}}"><img
+          src="{{url_for('static', filename = '/Images/Logo-devoir.png')}}" draggable="false"></a>
+
+      <a class="a-nav" href="{{url_for('test')}}"><img src="{{url_for('static', filename = '/Images/Test-Logo.png')}}"
+          draggable="false"></a>
+      <a class="a-nav" href="{{url_for('event')}}"><img focusable="false"
+          src="{{url_for('static', filename = '/Images/Calendrier-Logo.png')}}" draggable="false">
+    </div>
+
+    <div class="nav-container">
+      <!-- Lien collé en bas-->
+      <a class="a-nav" href="{{url_for('parametres')}}"><img
+          src="{{url_for('static', filename = '/Images/Parametre-Logo.png')}}" draggable="false"></a>
+
+      <a class="a-nav " href="{{url_for('account')}}"><img
+          src="{{url_for('static', filename = '/Images/Profil-Logo.png')}}" draggable="false"> </a>
+
+    </div>
+  </nav>
+
+  <header>
+    <div class="header-left">
+      <h1><a class="header" href="{{url_for('index')}}">Créer mon Compte</a></h1>
+    </div>
+    <div class="header-right">
+      <a href="{{url_for('test')}}"><button class="test">
+          Test
+        </button></a>
+
+      <a href="{{url_for('event')}}">
+        <button class="event">
+          Événement
+        </button></a>
+
+      <a href="{{url_for('devoirs')}}"><button class="devoir">
+          Devoirs
+        </button></a>
+
+        <a href="{{url_for('parametres')}}"><img src="{{url_for('static', filename = '/Images/Parametre-Logo.png')}}"/></a>
+      </div>
+  </header>
+
+  <main>
+    <form action="{{url_for('creat_account')}}" method="POST">
+      <div class="create-account-box">
+        <h2>Créer un Compte</h2>
+        {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="message">{{ messages[0] }}</div>
+    {% endif %}
+    {% endwith %}
+        <div class="input-box">
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" class="option-login" name="nom" {% if nom %} value="{{nom}}" {%endif%} required>
+        </div>
+        <div class="input-box">
+          <label for="prenom">Prénom</label>
+          <input type="text" id="prenom" class="option-login" name="prenom" {% if prenom %} value="{{prenom}}" {%endif%}
+            required>
+        </div>
+        <div class="input-box">
+          <label for="email">E-mail</label>
+          <input type="text" id="email" class="option-login" name="e_mail" placeholder="pq12abc@eduvaud.ch" required>
+        </div>
+        <div class="input-box">
+          <label for="password">Mot de Passe</label>
+          <input type="password" id="password" class="option-login" name="mot_de_passe" required>
+        </div>
+        <div class="input-box">
+          <label for="classe">Classe</label>
+          <input type="text" id="classe" class="option-login" name="classe" {% if classe %} value="{{classe}}" {%endif%}
+            placeholder="3M8" required>
+        </div>
+        <div class="input-box">
+          <label for="os">OS</label>
+          <select id="os" name="o_s" class="option-login">
+            <option value="Maths et Physique">Application des Maths et Physique</option>
+            <option value="Biologie">Biologie et Chimie</option>
+            <option value="Economie">Économie et Droit</option>
+            <option value="Philosophie et Psychologie">Philosophie et Psychologie</option>
+            <option value="Arts">Arts Visuels</option>
+            <option value="Espagnol">Espagnol</option>
+            <option value="Italien">Italien</option>
+            <option value="Latin">Latin</option>
+          </select>
+        </div>
+        <div class="input-box">
+          <label for="oc">OC</label>
+          <select id="oc" name="o_c" class="option-login">
+            <option value="Informatique">Informatique</option>
+            <option value="Maths">Application des Maths</option>
+            <option value="Arts">Arts Visuels</option>
+            <option value="Biologie">Biologie</option>
+            <option value="Chimie">Chimie</option>
+            <option value="Economie">Économie et Droit</option>
+            <option value="Géographie">Géographie</option>
+            <option value="Sport">Sport</option>
+            <option value="Physique">Physique</option>
+            <option value="Musique">Musique</option>
+            <option value="Religion">Histoire et sciences des religions</option>
+            <option value="Histoire">Histoire</option>
+          </select>
+        </div>
+        <div class="input-box">
+          <label for="groupe">Groupe (A/B)</label>
+          <select id="groupe" name="groupe" class="option-login" required>
+            <option value="A">A</option>
+            <option value="B">B</option>
+          </select>
+        </div>
+        <div class="input-box">
+          <label for="isBillingue">Matu Bilingue</label>
+          <select id="isBillingue" name="isBillingue" class="option-login">
+            <option value="non">Non</option>
+            <option value="oui">Oui</option>
+          </select>
+        </div>
+        <div class="input-box">
+          <label for="dispense">Dispense</label>
+          <select id="dispense" name="cours_dispenses" class="option-login">
+            <option value="">Aucun</option>
+            <option value="Allemand" {% if session["cours_dispenses"]=="Allemand" %} selected{% endif %}>Allemand
+            </option>
+            <option value="Anglais" {% if session["cours_dispenses"]=="Anglais" %} selected{% endif %}>Anglais</option>
+            <option value="Biologie" {% if session["cours_dispenses"]=="Biologie" %} selected{% endif %}>Biologie
+            </option>
+            <option value="Français" {% if session["cours_dispenses"]=="Français" %} selected{% endif %}>Français
+            </option>
+            <option value="Géographie" {% if session["cours_dispenses"]=="Géographie" %} selected{% endif %}>Géographie
+            </option>
+            <option value="Histoire" {% if session["cours_dispenses"]=="Histoire" %} selected{% endif %}>Histoire
+            </option>
+            <option value="Maths" {% if session["cours_dispenses"]=="Maths" %} selected{% endif %}>Maths</option>
+            <option value="Philosophie" {% if session["cours_dispenses"]=="Philosophie" %} selected{% endif %}>
+              Philosophie</option>
+            <option value="Sport" {% if session["cours_dispenses"]=="Sport" %} selected{% endif %}>Sport</option>
+          </select>
+        </div>
+        <button class="connexion" type="submit">Créer un Compte</button>
+        <div class="extra">
+          <p><a href="{{url_for('login')}}">Déjà un Compte ?</a></p>
+        </div>
+        
+      </div>
+
+    </form>
+    
+  </main>
+
+
+
+    <footer class="simple-footer">
+      <div class="footer-content">
+        <p>&copy; 2025 Jérémie Corbaz. Tous droits réservés.</p>
+        <ul>
+          <li><strong>Étudiant :</strong> Gymnase de Burier, Suisse</li>
+          <li><strong>E-mail :</strong> jeremie.corbaz@eduvaud.ch</li>
+        </ul>
+        <p>
+          Retrouvez-moi sur :
+          <a href="https://www.instagram.com/jeremie.cbz/" target="_blank">Instagram </a> |
+          <a href="https://github.com/jeremiecbz" target="_blank">GitHub</a>
+        </p>
+      </div>
+    </footer>
+
+</body>
+
+</html> <!-- EOF -->

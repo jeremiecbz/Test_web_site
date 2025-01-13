@@ -1,0 +1,206 @@
+/* Box de Gauche ----------*/
+.plan-accueil {
+    background-color: #B3D4E0;
+    border: solid 2px black;
+    display: flex;
+    padding: 20px;
+}
+
+/*  Plan des Periodes*/
+.change-day {
+    background-color: var(--color_submit);
+    border: 0.5px black solid;
+    border-radius: 10px;
+    font-size: xx-small;
+    padding: 0px 8px;
+}
+
+.change-day:hover {
+    background-color: var(--color_submit_hover);
+}
+
+.T-today {
+    justify-content: space-between;
+}
+
+.today {
+    margin-bottom: 20px;
+}
+
+.date-today {
+    margin-bottom: 20px;
+}
+
+.periode {
+    width: 40px;
+    font-size: large;
+    font-weight: bold;
+}
+
+.today-box {
+    padding-right: 15px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    border-right: dashed 2px rgba(0, 0, 0, 0.249);
+}
+
+.today-box .pause {
+    background-color: var(--color_pause);
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.today-box .date {
+    width: 30px;
+}
+
+.today-box .element {
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+}
+
+.today-box .line {
+    padding-bottom: 0;
+    margin-bottom: 5px;
+}
+
+.today-box .color-element {
+    background-color: bisque;
+}
+
+.heure-periode {
+    font-size: xx-small;
+    color: rgba(0, 0, 0, 0.75);
+    font-weight: normal;
+}
+
+/* Evenement à venir  -----------------       */
+.week-box {
+    padding-left: 20px;
+    overflow-y: scroll;
+    scrollbar-width: 0;
+}
+
+/* ---- Calendrier-------------------------*/
+.table-container {
+    width: 700px;
+    height: 600px;
+    overflow: auto;
+}
+
+table {
+    /* Ajuste la largeur à celle du conteneur */
+    border-collapse: collapse;
+}
+
+th {
+    background-color: rgb(60, 125, 254);
+    color: white;
+    border: 1px black solid;
+    padding: 10px 12px;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: rgb(249, 249, 249);
+    /* Couleur des lignes alternées */
+}
+td {
+    border: 1px black solid;
+    padding: 8px 2px;
+    overflow-y: scroll;
+    width: 15%;
+}
+
+td::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0;
+}
+
+thead {
+    height: 50px;
+}
+
+
+
+.calender {
+    background-color: rgb(224, 230, 237);
+    border: solid 2px black;
+}
+
+#today {
+    background-color: rgb(188, 255, 137);
+    color: #333;
+}
+
+.element-calender {
+    height: 100px;
+}
+
+.button-calender {
+    border-radius: 25px;
+    text-align: center;
+    border: 1px solid black;
+    margin: 2px 0px;
+}
+
+.button-calender.test:hover {
+    background-color: var(--color_test-50);
+}
+
+.button-calender.devoir:hover {
+    background-color: var(--color_devoirs-50);
+}
+
+.button-calender.event:hover {
+    background-color: var(--color_event-50);
+}
+
+.date-calender {
+    font-size: x-small;
+    text-align: center;
+}
+
+.nom-calender {
+    max-width: 50px;
+    padding: 2px 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----Journée------------------------------*/
+
+
+/* NEW -------------------------------------------------*/
+
+
+
+
+
+/*---Plan Semaine-------------------------*/
