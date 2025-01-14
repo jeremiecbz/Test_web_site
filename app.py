@@ -663,6 +663,7 @@ def creat_account():
     with connect_db() as cur:
         cur.execute('INSERT INTO users (nom, prenom, e_mail,mot_de_passe, classe, o_s, o_c, groupe, cours_dispenses, isBillingue) VALUES (?,?,?,?,?,?,?,?,?,?)', (nom, prenom, e_mail,mot_de_passe,classe, o_s, o_c, groupe, cours_dispenses, isBillingue))
         push_db_to_github()
+    
     # Selectionne l'id du nouvel utilisateur 
     with connect_db() as cur:
         cur.execute("SELECT id FROM users WHERE e_mail = ?",(e_mail, ))
@@ -818,6 +819,7 @@ def create_test():
     with connect_db() as cur:
         cur.execute('INSERT INTO tests (nom, branche, date, jour, heure, description, classe, createur, create_date, type) VALUES (?,?,?,?,?,?,?,?,?,?)', (nom, branche,date,jour,heure,description, classe, session["e_mail"], create_date, type))
         push_db_to_github()
+    
     return redirect(url_for("test_print",nom = nom, classe = classe))
 
 
