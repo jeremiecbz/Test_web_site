@@ -8,6 +8,15 @@ try:
 except locale.Error:
     locale.setlocale(locale.LC_TIME, "C")
 
+def push_db_to_github():
+    repo_dir = "/path/to/your/repo"  # Chemin vers ton dépôt local (où database.db est situé)
+    os.chdir(repo_dir)
+
+    # Commandes Git pour ajouter, committer et pousser les changements
+    subprocess.run(["git", "add", "database.db"])
+    subprocess.run(["git", "commit", "-m", "Mise à jour de database.db"])
+    subprocess.run(["git", "push"])
+
 
 # Création du serveur
 app = Flask(__name__)
@@ -648,6 +657,7 @@ def creat_account():
     # Crée un nouvel utilisateur
     with connect_db() as cur:
         cur.execute('INSERT INTO users (nom, prenom, e_mail,mot_de_passe, classe, o_s, o_c, groupe, cours_dispenses, isBillingue) VALUES (?,?,?,?,?,?,?,?,?,?)', (nom, prenom, e_mail,mot_de_passe,classe, o_s, o_c, groupe, cours_dispenses, isBillingue))
+        push_db_to_github()
     
     # Selectionne l'id du nouvel utilisateur 
     with connect_db() as cur:
@@ -803,7 +813,8 @@ def create_test():
     # Ajoute à la base de données les infos du test
     with connect_db() as cur:
         cur.execute('INSERT INTO tests (nom, branche, date, jour, heure, description, classe, createur, create_date, type) VALUES (?,?,?,?,?,?,?,?,?,?)', (nom, branche,date,jour,heure,description, classe, session["e_mail"], create_date, type))
-
+        push_db_to_github()
+    
     return redirect(url_for("test_print",nom = nom, classe = classe))
 
 
