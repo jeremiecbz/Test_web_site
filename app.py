@@ -12,7 +12,7 @@ import os
 import subprocess
 
 def push_db_to_github():
-    repo_dir = "/path/to/your/repo"  # Chemin vers ton dépôt local (où database.db est situé)
+    repo_dir = "database.db"  # Chemin vers ton dépôt local (où database.db est situé)
     os.chdir(repo_dir)
 
     # Commandes Git pour ajouter, committer et pousser les changements
