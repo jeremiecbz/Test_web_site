@@ -847,6 +847,7 @@ def hide_test():
 
     with connect_db() as cur:        
         cur.execute( "INSERT OR IGNORE INTO hidden_tests (user_id, test_id) VALUES (?, ?)", (user_id, test_id))
+        push_db_to_github()
 
     return redirect(redirect_url)
 
@@ -906,6 +907,7 @@ def create_devoir():
     with connect_db() as cur:
         cur.execute('INSERT INTO devoirs (nom, branche, date, jour, heure, description, classe, createur, create_date, type) VALUES (?,?,?,?,?,?,?,?,?,?)', 
                     (nom, branche, date, jour, heure, description, classe, session["e_mail"], create_date, type))
+        push_db_to_github()
 
     return redirect(url_for("devoir_print", nom=nom, classe=classe))
 
@@ -929,6 +931,7 @@ def hide_devoir():
     with connect_db() as cur:
         user_id = session.get("id")
         cur.execute("INSERT OR IGNORE INTO hidden_devoirs (user_id, devoir_id) VALUES (?, ?)", (user_id, devoir_id))
+        push_db_to_github()
 
     return redirect(redirect_url)
 
@@ -988,6 +991,7 @@ def create_event():
     with connect_db() as cur:
         cur.execute('INSERT INTO events (nom, branche, date, jour, heure, description, classe, createur, create_date, type) VALUES (?,?,?,?,?,?,?,?,?, ?)', 
                     (nom, branche, date, jour, heure, description, classe, session["e_mail"], create_date, type))
+        push_db_to_github()
 
     return redirect(url_for("event_print", nom=nom, classe=classe))
 
@@ -1011,6 +1015,7 @@ def hide_event():
     with connect_db() as cur:
         user_id = session.get("id")
         cur.execute("INSERT OR IGNORE INTO hidden_events (user_id, event_id) VALUES (?, ?)", (user_id, event_id))
+        push_db_to_github()
 
     return redirect(redirect_url)
 
