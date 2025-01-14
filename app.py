@@ -13,7 +13,8 @@ import os
 import subprocess
 
 def push_db_to_github():
-    repo_dir = "/path/to/your/repo"  # Chemin vers ton dépôt local (où database.db est situé)
+    repo_dir = "/Users/ps85iar/Library/CloudStorage/OneDrive-EducationVaud/Mon_Site_uploaded"
+  # Chemin vers ton dépôt local (où database.db est situé)
     os.chdir(repo_dir)
 
     # Commandes Git pour ajouter, committer et pousser les changements
@@ -816,7 +817,7 @@ def create_test():
     # Ajoute à la base de données les infos du test
     with connect_db() as cur:
         cur.execute('INSERT INTO tests (nom, branche, date, jour, heure, description, classe, createur, create_date, type) VALUES (?,?,?,?,?,?,?,?,?,?)', (nom, branche,date,jour,heure,description, classe, session["e_mail"], create_date, type))
-
+        push_db_to_github()
     return redirect(url_for("test_print",nom = nom, classe = classe))
 
 
