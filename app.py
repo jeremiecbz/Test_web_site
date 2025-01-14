@@ -224,7 +224,7 @@ def devoir_print(classe, nom):
     with connect_db() as cur:
         cur.execute("SELECT id FROM devoirs WHERE nom = ? AND classe = ?", (nom, classe))
         id = cur.fetchone()
-        if id== None:
+        if id == None:
             if session['nom'] != "ADMIN":
                 flash("Cette Page n'existe pas !")
             else:
