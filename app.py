@@ -8,6 +8,9 @@ try:
 except locale.Error:
     locale.setlocale(locale.LC_TIME, "C")
 
+import os
+import subprocess
+
 def push_db_to_github():
     repo_dir = "/path/to/your/repo"  # Chemin vers ton dépôt local (où database.db est situé)
     os.chdir(repo_dir)
