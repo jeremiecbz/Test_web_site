@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Infos de la page et métadonnées -->
+  <meta charset="utf-8" />
+  <title>Mon Compte | Agenda {{session['classe']}}</title> <!-- Sera affiché dans l'onglet du navigateur-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='/Styles/login.css') }}" />
+
+  <link rel="icon" href="{{url_for('static', filename ='/Images/Suisse-drapeau.svg')}}" type="img/sbg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Contenu de la page -->
+
+
+  <nav id="main-nav"><!-- Navigateur Gauche-->
+    <div class="nav-container">
+      <a class="a-nav " href="{{url_for('index')}}">
+        <img src="{{url_for('static', filename = '/Images/Accueil-Logo.png')}}" draggable="false"></a>
+
+      <a class="a-nav" href="{{url_for('devoirs')}}">
+        <img src="{{url_for('static', filename = '/Images/Logo-devoir.png')}}" draggable="false"></a>
+
+      <a class="a-nav" href="{{url_for('test')}}">
+        <img src="{{url_for('static', filename = '/Images/Test-Logo.png')}}" draggable="false"></a>
+
+      <a class="a-nav" href="{{url_for('event')}}">
+        <img focusable="false" src="{{url_for('static', filename = '/Images/Calendrier-Logo.png')}}" draggable="false">
+    </div>
+
+    <div class="nav-container">
+      <!-- Lien collé en bas-->
+      <a class="a-nav" href="{{url_for('parametres')}}">
+        <img src="{{url_for('static', filename = '/Images/Parametre-Logo.png')}}" draggable="false"></a>
+
+      <a class="a-nav " href="{{url_for('account')}}">
+        <img src="{{url_for('static', filename = '/Images/Profil-Logo.png')}}" draggable="false"> </a>
+
+    </div>
+  </nav>
+
+  <header>
+    <div class="header-left">
+      <h1><a class="header" href="{{url_for('account')}}">Mon Compte</a></h1>
+    </div>
+
+    <div class="header-right">
+      <a href="{{url_for('test')}}"><button class="test">
+          Test
+        </button></a>
+
+      <a href="{{url_for('event')}}">
+        <button class="event">
+          Événement
+        </button></a>
+
+      <a href="{{url_for('devoirs')}}"><button class="devoir">
+          Devoirs
+        </button></a>
+
+      <a href="{{url_for('parametres')}}">
+        <img src="{{url_for('static', filename = '/Images/Parametre-Logo.png')}}" /></a>
+    </div>
+  </header>
+
+
+  <main class="account-box">
+    <div class="button-top">
+      <form action="{{url_for('logout')}}" method="POST">
+        <button class="connexion" type="submit">Logout</button>
+      </form>
+
+      <form action="{{url_for('delete_account')}}" method="POST">
+        <button class="connexion danger" type="submit">Supprimer mon compte</button>
+      </form>
+    </div>
+
+    <form action="{{url_for('modify_account')}}" method="POST">
+      <div class="create-account-box">
+        <h2>Modifier mon Compte</h2>
+        <div class="message">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          {{ messages[0]}}
+          {% endif %}
+          {% endwith %}
+        </div>
+
+        <div class="input-boxes">
+          <div class="input-box">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" class="option-login" value="{{session['nom']}}" name="nom" required>
+          </div>
+
+          <div class="input-box">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" class="option-login" value="{{session['prenom']}}" name="prenom" required>
+          </div>
+
+          <div class="input-box">
+            <label for="email">E-mail</label>
+            <input type="text" id="email" class="option-login" value="{{session['e_mail']}}" name="e_mail" readonly>
+          </div>
+
+          <div class="input-box">
+            <label for="classe">Classe</label>
+            <input type="text" id="classe" class="option-login" value="{{session['classe']}}" name="classe" required>
+          </div>
+
+          <div class="input-box">
+            <label for="os">OS</label>
+            <select id="os" name="o_s" class="option-login">
+              <option value="Maths et Physique" {% if session["o_s"]=="Maths et Physique" %}selected{% endif %}>
+                Application des Maths et Physique</option>
+              <option value="Biologie" {% if session["o_s"]=="Biologie" %}selected{% endif %}>
+                Biologie et Chimie
+              </option>
+              <option value="Economie" {% if session["o_s"]=="Economie" %}selected{% endif %}>Économie et Droit</option>
+              <option value="Philosophie et Psychologie" {% if session["o_s"]=="Philosophie et Psychologie"
+                %}selected{%endif %}>Philosophie et Psychologie</option>
+              <option value="Arts" {% if session["o_s"]=="Arts" %}selected{% endif %}>Arts Visuels</option>
+              <option value="Espagnol" {% if session["o_s"]=="Espagnol" %}selected{% endif %}>Espagnol</option>
+              <option value="Italien" {% if session["o_s"]=="Italien" %}selected{% endif %}>Italien</option>
+              <option value="Latin" {% if session["o_s"]=="Latin" %}selected{% endif %}>Latin</option>
+            </select>
+          </div>
+
+          <div class="input-box">
+            <label for="oc">OC</label>
+            <select id="oc" name="o_c" class="option-login">
+              <option value="Informatique" {% if session["o_c"]=="Informatique" %}selected{% endif %}>
+                Informatique
+              </option>
+              <option value="Maths" {% if session["o_c"]=="Maths" %}selected{% endif %}>Application des Maths</option>
+              <option value="Arts" {% if session["o_c"]=="Arts" %}selected{% endif %}>Arts Visuels</option>
+              <option value="Biologie" {% if session["o_c"]=="Biologie" %}selected{% endif %}>Biologie</option>
+              <option value="Chimie" {% if session["o_c"]=="Chimie" %}selected{% endif %}>Chimie</option>
+              <option value="Economie" {% if session["o_c"]=="Economie" %}selected{% endif %}>Économie et Droit</option>
+              <option value="Geographie" {% if session["o_c"]=="Geographie" %}selected{% endif %}>Géographie</option>
+              <option value="Sport" {% if session["o_c"]=="Sport" %}selected{% endif %}>Sport</option>
+              <option value="Physique" {% if session["o_c"]=="Physique" %}selected{% endif %}>Physique</option>
+              <option value="Musique" {% if session["o_c"]=="Musique" %}selected{% endif %}>Musique</option>
+              <option value="Religion" {% if session["o_c"]=="Religion" %}selected{% endif %}>
+                Histoire et sciences des religions
+              </option>
+              <option value="Histoire" {% if session["o_c"]=="Histoire" %}selected{% endif %}>Histoire</option>
+            </select>
+          </div>
+
+          <div class="input-box">
+            <label for="groupe">Groupe (A/B)</label>
+            <select id="groupe" name="groupe" class="option-login">
+              <option value="A" {% if session["groupe"]=="A" %}selected{% endif %}>A</option>
+              <option value="B" {% if session["groupe"]=="B" %}selected{% endif %}>B</option>
+            </select>
+          </div>
+
+          <div class="input-box">
+            <label for="isBillingue">Maturité Bilingue</label>
+            <select id="isBillingue" name="isBillingue" class="option-login">
+              <option value="oui" {% if session["isBillingue"]=="oui" %}selected{% endif %}>Oui</option>
+              <option value="non" {% if session["isBillingue"]=="non" %}selected{% endif %}>Non</option>
+            </select>
+          </div>
+
+          <div class="input-box">
+            <label for="dispense">Dispense</label>
+            <select id="dispense" name="matieres" class="option-login">
+              <option value="">Aucun</option>
+              <option value="Allemand" {% if session["cours_dispenses"]=="Allemand" %}selected{% endif %}>
+                Allemand
+              </option>
+              <option value="Anglais" {% if session["cours_dispenses"]=="Anglais" %}selected{% endif %}>
+                Anglais
+              </option>
+              <option value="Biologie" {% if session["cours_dispenses"]=="Biologie" %}selected{% endif %}>
+                Biologie
+              </option>
+              <option value="Français" {% if session["cours_dispenses"]=="Français" %}selected{% endif %}>
+                Français
+              </option>
+              <option value="Géographie" {% if session["cours_dispenses"]=="Géographie" %}selected{% endif %}>
+                Géographie
+              </option>
+              <option value="Histoire" {% if session["cours_dispenses"]=="Histoire" %}selected{% endif %}>
+                Histoire
+              </option>
+              <option value="Maths" {% if session["cours_dispenses"]=="Maths" %}selected{% endif %}>
+                Maths
+              </option>
+              <option value="Philosophie" {% if session["cours_dispenses"]=="Philosophie" %}selected{% endif %}>
+                Philosophie
+              </option>
+              <option value="Sport" {% if session["cours_dispenses"]=="Sport" %}selected{% endif %}>
+                Sport</option>
+            </select>
+          </div>
+        </div>
+
+        <input class="connexion" type="submit" value="Modifier">
+
+      </div>
+    </form>
+  </main>
+
+
+  <footer class="simple-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Jérémie Corbaz. Tous droits réservés.</p>
+
+      <ul>
+        <li><strong>Étudiant :</strong> Gymnase de Burier, Suisse</li>
+        <li><strong>E-mail :</strong> jeremie.corbaz@eduvaud.ch</li>
+      </ul>
+      <p>
+        Retrouvez-moi sur :
+        <a href="https://www.instagram.com/jeremie.cbz/" target="_blank">Instagram </a> |
+        <a href="https://github.com/jeremiecbz" target="_blank">GitHub</a>
+      </p>
+
+    </div>
+  </footer>
+
+</body>
+
+</html> <!-- EOF -->

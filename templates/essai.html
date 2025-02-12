@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendrier des Événements</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ma Page</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+
+</head>
+<style>
+  /* Style de la boîte de connexion */
+  .login-box {
+    width: 300px;
+    padding: 20px;
+    margin: 50px auto;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+  }
+
+  .login-box h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+
+  .input-box {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+
+  .input-box label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+  }
+
+  .input-box input {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+
+  .input-box input:focus {
+    border-color: #4CAF50;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #45A049;
+  }
+
+  .extra {
+    margin-top: 15px;
+  }
+
+  .extra a {
+    color: #4CAF50;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .extra a:hover {
+    color: #388E3C;
+  }
+</style>
+
+<body>
+  
+
+<div class="login-box">
+  <h2>Se connecter</h2>
+  <form>
+    <div class="input-box">
+      <label for="username">Nom d'utilisateur</label>
+      <input type="text" id="username" name="username" placeholder="Entrez votre nom" required>
+    </div>
+    <div class="input-box">
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+    </div>
+    <button type="submit">Connexion</button>
+    <div class="extra">
+      <a href="#">Mot de passe oublié ?</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

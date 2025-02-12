@@ -1,0 +1,643 @@
+:root {
+    --color_test: rgb(208, 105, 255);
+    --color_test-50: rgba(208, 105, 255, 0.7);
+    --color_event: rgb(97, 179, 255);
+    --color_event-50: rgba(97, 179, 255, 0.7);
+    --color_devoirs: rgb(255, 156, 83);
+    --color_devoirs-50: rgba(255, 156, 83, 0.7);
+    --color_pause: rgb(190, 190, 190);
+    --color_submit: rgb(219, 219, 219);
+    --color_submit_hover: rgb(202, 202, 202);
+    --color_submit_active: rgb(167, 167, 167);
+    --link_hover: rgb(60, 60, 60);
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+}
+
+main {
+    margin-top: 80px;
+    margin-left: 80px;
+    padding: 20px;
+    min-height: 80vh;
+}
+
+.flex {
+    display: flex;
+}
+
+.flash {
+    margin-bottom: 20px;
+}
+
+p {
+    margin: 0;
+}
+
+form {
+    display: flex;
+}
+
+a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgba(0, 0, 0, 0.75);
+}
+
+/* Header ----------------------------------------------- */
+header {
+    top: 0;
+    left: 80px;
+    right: 0;
+
+    padding-left: 40px;
+    background-color: white;
+
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-content: flex-start;
+    z-index: 1000;
+
+    border-bottom: solid 2px rgb(164, 27, 202);
+}
+
+.header-left {
+    background-color: white;
+    min-width: 370px;
+    width: 370px;
+}
+
+header button {
+    height: 40px;
+}
+.header-right {
+    background-color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 450px;
+}
+
+.header-right img {
+    height: 40px;
+}
+
+.header-right button {
+    border-radius: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: solid 1.4px black;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: Roboto, 'Times New Roman', Times, serif;
+}
+
+.header-right button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.header-right button:active {
+    opacity: 0.95;
+}
+
+/* NAV  ------(à gauche)-------------------*/
+#main-nav {
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-bottom: 5px;
+    padding-top: 15px;
+    box-sizing: border-box;
+    width: 80px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgb(215, 230, 243);
+    border-right: solid 2px rgb(83, 91, 97);
+    z-index: 999;
+}
+
+.a-nav img {
+    width: 60px;
+}
+
+.nav-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Box  -----------------------------*/
+.box {
+    padding: 20px;
+    flex: 1;
+    height: 600px;
+    min-width: 600px;
+
+    border-radius: 22px;
+    border: solid 2px rgb(10, 10, 10);
+    font-family: Roboto, Arial;
+}
+
+.sec-part {
+    padding-left: 25px;
+}
+
+/*  Liste des evenement à venir ------------------------------*/
+.plan {
+    overflow-y: scroll;
+}
+
+div ::-webkit-scrollbar {
+    width: 0;
+}
+
+.calender::-webkit-scrollbar,
+.week-box::-webkit-scrollbar {
+    height: 12px;
+}
+
+.calender::-webkit-scrollbar-thumb,
+.week-box::-webkit-scrollbar-thumb {
+    background-color: rgb(192, 192, 192);
+    border-radius: 10px;
+    border: 3px solid rgb(255, 255, 255);
+}
+
+.calender::-webkit-scrollbar-track,
+.week-box::-webkit-scrollbar-track {
+    background-color: rgb(241, 241, 241);
+    border-radius: 10px;
+}
+
+/* Ligne de titre*/
+h2 {
+    margin-top: 0;
+}
+
+.T-line {
+    font-size: large;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.T-date {
+    width: 120px;
+    font-weight: bold;
+}
+
+.branche {
+    font-weight: bold;
+    width: 120px;
+}
+
+.nom {
+    width: 120px;
+}
+
+.heure {
+    width: 60px;
+}
+
+/* Element des evenement à venir -------------------------*/
+.main {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.element {
+    padding: 10px 20px;
+    margin-left: 8px;
+    border-radius: 15px;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    font-size: large;
+    font-family: Roboto, arial;
+}
+
+
+.date {
+    width: 92px;
+}
+
+.jour {
+    font-weight: bold;
+    width: 70px;
+}
+
+.element.event:hover,
+.element.test:hover,
+.element.devoir:hover {
+    color: var(--link_hover);
+}
+
+.element.event:hover {
+    background-color: var(--color_event-50);
+}
+
+.element.devoir:hover {
+    background-color: var(--color_devoirs-50);
+}
+
+.element.test:hover {
+    background-color: var(--color_test-50);
+}
+
+.masquer {
+    background-color: var(--color_submit);
+    border: 1px black solid;
+    border-radius: 10px;
+    padding: 2px 8px;
+}
+
+.masquer:hover {
+    background-color: var(--color_submit_active);
+}
+
+.box-masquer {
+    gap: 20px;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+/* Box pour ajouter des evenements devoir etc... --------------------------------*/
+h2.T-input {
+    flex: 1;
+}
+
+form.add {
+    display: block;
+}
+
+.input-titel {
+    padding-left: 6px;
+    transition: 0.5s;
+    width: 100%;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    border-bottom: solid rgba(0, 0, 0, 0.2) 2px;
+    font-size: 1em;
+}
+
+.input-titel[type="text"]:focus-visible {
+    outline: 0cm;
+}
+
+.add-box-line {
+    display: flex;
+    align-items: stretch;
+    margin-bottom: 20px;
+}
+
+.add-box-line img {
+    height: 32px;
+}
+
+.icon-in-box-add {
+    margin-right: 16px;
+}
+
+.input-in-box-add {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 16px;
+}
+
+.input-ADD {
+    border-radius: 12px;
+    outline: none;
+    border: solid 1px black;
+    font-family: Roboto;
+    padding-left: 6px;
+    height: 28px;
+    margin-left: 4px;
+}
+
+textarea.input-ADD {
+    background-color: whitesmoke;
+    flex: 1;
+    height: 150px;
+    max-height: 350px;
+    min-height: 50px;
+
+    font-size: medium;
+}
+
+/* Boutton pour ajouter */
+
+.input-submit {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    margin-top: 25px;
+    bottom: -70px;
+}
+
+.last-line {
+    position: relative;
+}
+
+.ajouter {
+    background-color: var(--color_submit);
+    width: 100px;
+    height: 40px;
+    border: solid 1px rgb(57, 57, 57);
+    border-radius: 16px;
+}
+
+.ajouter:hover {
+    background-color: var(--color_submit_hover);
+}
+
+.ajouter:active {
+    background-color: var(--color_submit_active);
+}
+
+/* Box pour afficher ------------------------------------------------*/
+.description {
+    height: 425px;
+    width: 100%;
+}
+
+.modifier {
+    background-color: var(--color_submit);
+    width: 100px;
+    height: 40px;
+    border: solid 1px rgb(57, 57, 57);
+    border-radius: 16px;
+}
+
+.modifier:hover {
+    background-color: var(--color_submit_hover);
+}
+
+.modifier:active {
+    background-color: var(--color_submit_active);
+}
+
+
+/* Paramètres --------------------------------------------------------*/
+h3 {
+    margin: 0px 0px 12px 0px;
+}
+
+.box-parametres {
+    padding: 20px;
+    flex: 1;
+    height: 600px;
+    width: 475px;
+
+    border-radius: 22px;
+    border: solid 2px rgb(10, 10, 10);
+    font-family: Roboto, Arial;
+}
+
+.T-date-parametres {
+    width: 78px;
+    font-weight: bold;
+}
+
+.date-parametres {
+    font-weight: bold;
+    width: 50px;
+}
+
+.nom-parametre {
+    width: 80px;
+}
+
+/* Account --------------------------------------------------------------*/
+.button-top {
+    display: flex;
+    justify-content: end;
+    gap: 25px;
+}
+
+.account-middle {
+    margin: 20px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3vw;
+}
+
+.case-login {
+    width: clamp(300px, 27vw, 27vw);
+    height: clamp(70px, 5vw, 5vw);
+
+    padding: 0 10px;
+
+    background-color: rgb(185, 185, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: solid 2px black;
+    border-radius: 30px;
+
+    font-size: 1.1em;
+}
+
+/* Box Login ------------------------------------------*/
+.login-box {
+    width: 300px;
+    padding: 20px;
+    margin: 50px auto;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+.login-box h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+.input-box {
+    margin-bottom: 15px;
+    text-align: left;
+}
+.input-box label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+}
+.connexion {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff;
+    background-color: rgb(60, 125, 254);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.connexion:hover {
+    background-color: rgb(12, 93, 255);
+}
+.connexion:active{
+    background-color: rgb(1, 13, 254);;
+}
+.connexion.danger:hover{
+    background-color: rgb(255, 66, 66);
+}
+.connexion.danger:active{
+    background-color: red;
+}
+.extra {
+    margin-top: 15px;
+}
+.extra a {
+    color: rgb(60, 125, 254);
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.extra a:hover {
+    color: rgb(12, 93, 255);;
+}
+.message {
+    margin-top: 15px;
+    font-size: 14px;
+    color: red;
+}
+/* Formulaire Create account*/
+.create-account-box {
+    width: 70%;
+    max-width: 600px;
+    padding: 20px;
+    margin: 0px auto 20px auto;
+    background: rgb(249, 249, 249);
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+.create-account-box h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+.option-login {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+.option-login:focus {
+    border-color: rgb(12, 93, 255);;
+}
+
+/* Couleur de fond pour chaque type de box -----------------------------------------------*/
+.devoir {
+    background-color: var(--color_devoirs);
+}
+
+.devoir-50 {
+    background-color: var(--color_devoirs-50);
+}
+
+.devoir-element {
+    background-color: bisque;
+}
+
+.border-bottom-devoir:focus {
+    border-bottom: solid var(--color_devoirs) 2px;
+}
+
+
+.test {
+    background-color: var(--color_test);
+}
+
+.test-50 {
+    background-color: var(--color_test-50);
+}
+
+.test-element {
+    background-color: rgb(255, 191, 239);
+}
+
+.border-bottom-test:focus {
+    border-bottom: solid var(--color_test) 2px;
+}
+
+
+.event {
+    background-color: var(--color_event);
+}
+
+.event-50 {
+    background-color: var(--color_event-50);
+}
+
+.event-element {
+    background-color: rgb(154, 221, 252);
+}
+
+.border-bottom-event:focus {
+    border-bottom: solid var(--color_event) 2px;
+}
+/* Footer ----------------------------------------------------------------*/
+.simple-footer {
+    background-color: rgb(105, 105, 230); /* Fond violet clair */
+    margin-left: 80px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #aaa; /* Ligne discrète pour séparer le footer */
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: white; /* Couleur du texte adaptée pour contraster avec le fond */
+  }
+
+  .simple-footer .footer-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+  }
+
+  .simple-footer .footer-content ul li {
+    margin: 5px 0;
+  }
+
+  .simple-footer a {
+    color: #ffff99; /* Couleur jaune clair pour les liens */
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .simple-footer a:hover {
+    color: #ffcc33; /* Jaune doré légèrement plus foncé au survol */
+  }

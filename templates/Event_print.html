@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head> <!-- Infos de la page et métadonnées -->
+  <meta charset="utf-8" />
+  <title>Infos Événement | Agenda {{session['classe']}}</title> <!-- Sera affiché dans l'onglet du navigateur-->
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}" />
+
+  <link rel="icon" href="{{url_for('static', filename ='/Images/Suisse-drapeau.svg')}}" type="img/sbg">
+
+  <link rel="preconnect" href="../https://fonts.googleapis.com">
+  <link rel="preconnect" href="../https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+
+<nav id="main-nav"><!-- Navigateur Gauche-->
+  <div class="nav-container">
+    <a class="a-nav " href="{{url_for('index')}}"><img
+        src="{{url_for('static', filename = '/Images/Accueil-Logo.png')}}" draggable="false"></a>
+
+    <a class="a-nav" href="{{url_for('devoirs')}}"><img
+        src="{{url_for('static', filename = '/Images/Logo-devoir.png')}}" draggable="false"></a>
+
+    <a class="a-nav" href="{{url_for('test')}}"><img src="{{url_for('static', filename = '/Images/Test-Logo.png')}}"
+        draggable="false"></a>
+    <a class="a-nav" href="{{url_for('event')}}"><img focusable="false"
+        src="{{url_for('static', filename = '/Images/Calendrier-Logo.png')}}" draggable="false">
+  </div>
+
+  <div class="nav-container">
+    <!-- Lien collé en bas-->
+    <a class="a-nav" href="{{url_for('parametres')}}"><img
+        src="{{url_for('static', filename = '/Images/Parametre-Logo.png')}}" draggable="false"></a>
+
+    <a class="a-nav " href="{{url_for('account')}}"><img
+        src="{{url_for('static', filename = '/Images/Profil-Logo.png')}}" draggable="false"> </a>
+
+  </div>
+</nav>
+
+<header>
+  <div class="header-left">
+    <h1><a class="header" href="{{url_for('event')}}">Infos Événement</a></h1>
+  </div>
+  <div class="header-right">
+    <a href="{{url_for('test')}}"><button class="test">
+        Test
+      </button></a>
+
+    <a href="{{url_for('event')}}">
+      <button class="event">
+        Événement
+      </button></a>
+
+    <a href="{{url_for('devoirs')}}"><button class="devoir">
+        Devoirs
+      </button></a>
+
+      <a href="{{url_for('parametres')}}"><img src="{{url_for('static', filename = '/Images/Parametre-Logo.png')}}"/></a>
+    </div>
+</header>
+
+<main>
+  <div class="main">
+    <div class="box plan event">
+      <h2>Événements:</h2>
+      <div class="sec-part">
+        {% if session["nom"] == "ADMIN" %}
+        <form action="{{url_for('delete_all_events')}}" method="POST">
+          <button class="masquer" type="submit">Tout Supprimer</button>
+        </form>
+        {% endif %}
+
+        {% if not events %}
+        <p>Aucun événement pour le moment.</p>
+        {% else %}
+        <div class="T-line">
+          <div class="T-date">Date</div>
+          <div class="branche">Branche</div>
+          <div class="nom">Nom</div>
+          <div class="heure">Heure</div>
+        </div>
+        {% for event in events %}
+        <a href="{{url_for('event_print', classe = event['classe'], nom = event['nom'])}}">
+          <div class="line">
+            <div class="date">
+              <div class="jour">{{ event['jour'] }}</div>
+              <div>{{ event['date'] }}</div>
+            </div>
+
+            <div class="element event-element">
+              <div class="branche">{{ event['branche'] }}</div>
+              <div class="nom">
+                {%if (event['nom'] | length) <= 8 %} {{ event['nom']}} {%else%} {{event['nom'][:7] + '...' }} {%endif%}
+                  </div>
+                  <div class="heure">{{ event['heure'] }}</div>
+
+                  <div class="box-masquer">
+                    <form action="{{url_for('hide_event')}}" method="post">
+                      <input type="hidden" value="{{event['id']}}" name="id">
+                      <input type="hidden" name="redirect"
+                        value="{{url_for('event_print', classe = infos_event['classe'], nom = infos_event['nom'])}}">
+                      <button class="masquer" type="submit">Masquer</button>
+                    </form>
+                    {% if session["nom"] == "ADMIN" %}
+                    <form action="{{url_for('delete_event')}}" method="post">
+                      <input type="hidden" value="{{ event['id'] }}" name="id">
+                      <input type="hidden" name="redirect"
+                        value="{{url_for('event_print', classe = infos_event['classe'], nom = infos_event['nom'])}}">
+                      <button class="masquer" type="submit">Supprimer</button>
+                    </form>
+                    {% endif %}
+                  </div>
+              </div>
+            </div>
+        </a>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="box ADD event-50">
+      {% if not isModify%}
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <b>{{ messages[0] }}</b>
+      {% endif %}
+      {% endwith %}
+
+      <h2>{{infos_event["nom"]}}</h2>
+      <div class="sec-part ADD">
+        <div>Pour le {{infos_event["jour"]}} {{infos_event["date"]}} à {{infos_event["heure"]}} en
+          {{infos_event["branche"]}}</div>
+        <div class="description">Description :
+          <div class="sec-part"> {{infos_event["description"]}}</div>
+        </div>
+
+        <div>{{infos_event["create_date"]}} par {{createur}}</div><br>
+
+        <form method="post">
+          <button class="modifier" type="submit" name="av">Modifier</button>
+        </form>
+      </div>
+      {% else %}
+      <form class="add" method="post">
+
+        <h2 class="T-input">
+          <input id="Titre" type="text" class="input-titel border-bottom-event" value="{{infos_event['nom']}}"
+            name="nom" required>
+        </h2>
+
+        <div class="sec-part ADD">
+
+          <div class="add-box-line">
+            <img src="{{url_for('static', filename = '/Images//Logo-menu.svg')}}" class="icon-in-box-add"
+              draggable="false">
+
+            <select class="input-ADD" name="branche" required>
+              <option value="Allemand" {% if infos_event['branche']=='Allemand' %}selected{% endif %}>Allemand</option>
+              <option value="Anglais" {% if infos_event['branche']=='Anglais' %}selected{% endif %}>Anglais</option>
+              <option value="OS" {% if infos_event['branche']=='OS' %}selected{% endif %}>OS {{ session["o_s"] }}
+              </option>
+              <option value="OC" {% if infos_event['branche']=='OC' %}selected{% endif %}>OC {{ session["o_c"] }}
+              </option>
+              <option value="Maths" {% if infos_event['branche']=='Maths' %}selected{% endif %}>Maths</option>
+              <option value="Français" {% if infos_event['branche']=='Français' %}selected{% endif %}>Français</option>
+              <option value="Géographie" {% if infos_event['branche']=='Géographie' %}selected{% endif %}>Géographie
+              </option>
+              <option value="Philosophie" {% if infos_event['branche']=='Philosophie' %}selected{% endif %}>Philosophie
+              </option>
+              <option value="Histoire" {% if infos_event['branche']=='Histoire' %}selected{% endif %}>Histoire</option>
+              <option value="Sport" {% if infos_event['branche']=='Sport' %}selected{% endif %}>Sport</option>
+              <option value="Biologie" {% if infos_event['branche']=='Biologie' %}selected{% endif %}>Biologie</option>
+
+            </select>
+
+          </div>
+
+
+          <div class="add-box-line">
+            <img class="icon-in-box-add" src="{{url_for('static', filename = '/Images/Logo-Pendule.svg')}}"
+              draggable="false">
+
+            <div class="input-in-box-add">
+              <input class="input-ADD" type="date" value="{{infos_event['date']}}" name="date" required>
+              <input class="input-ADD" type="time" value="{{infos_event['heure']}}" name="heure">
+            </div>
+          </div>
+
+
+          <div class="add-box-line">
+            <img class="icon-in-box-add" src="{{url_for('static', filename = '/Images/Logo-Description.svg')}}"
+              draggable="false">
+            <textarea class="input-ADD" rows="6" placeholder="Ajouter des Infos Supplémentaire"
+              name="description">{{infos_event['description']}}</textarea>
+          </div>
+
+
+          <div class="add-box-line last-line">
+
+            <div class="input-submit"><button class="modifier" type="submit" name="ap"> Modifier</button>
+            </div>
+          </div>
+
+
+
+      </form>
+    </div>
+
+
+    {%endif%}
+  </div>
+</main>
+
+
+<footer class="simple-footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Jérémie Corbaz. Tous droits réservés.</p>
+    <ul>
+      <li><strong>Étudiant :</strong> Gymnase de Burier, Suisse</li>
+      <li><strong>E-mail :</strong> jeremie.corbaz@eduvaud.ch</li>
+    </ul>
+    <p>
+      Retrouvez-moi sur :
+      <a href="https://www.instagram.com/jeremie.cbz/" target="_blank">Instagram </a> |
+      <a href="https://github.com/jeremiecbz" target="_blank">GitHub</a>
+    </p>
+  </div>
+</footer>
+</body>
+</html>
