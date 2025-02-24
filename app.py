@@ -1,8 +1,8 @@
 from flask import Flask, request, render_template, redirect,url_for, session, flash
 from datetime import * 
 from contextlib import contextmanager
-import bcrypt
 import sqlite3
+import bcrypt
 import locale
 try:
     locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
@@ -35,6 +35,11 @@ def connect_db():
     finally:
         conn.close()
     return
+
+with connect_db() as cur:
+    with open('create_db.sql') as f:
+        cur.executescript(f.read())
+            
 
 jours_semaine = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
 

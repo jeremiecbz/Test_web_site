@@ -83,3 +83,11 @@ CREATE TABLE IF NOT EXISTS hidden_events (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (event_id) REFERENCES events(id)
 );
+
+CREATE TABLE IF NOT EXISTS horaires (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "classe" TEXT NOT NULL,
+    "jour" TEXT NOT NULL,
+    "periode" TEXT NOT NULL,
+    "matiere" TEXT NOT NULL
+);

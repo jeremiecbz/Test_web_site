@@ -76,6 +76,7 @@ header {
 header button {
     height: 40px;
 }
+
 .header-right {
     background-color: white;
     display: flex;
@@ -473,21 +474,25 @@ h3 {
     font-family: 'Roboto', sans-serif;
     text-align: center;
 }
+
 .login-box h2 {
     margin-bottom: 20px;
     font-size: 24px;
     color: #333;
 }
+
 .input-box {
     margin-bottom: 15px;
     text-align: left;
 }
+
 .input-box label {
     display: block;
     font-size: 14px;
     margin-bottom: 5px;
     color: #555;
 }
+
 .connexion {
     width: 100%;
     padding: 10px 15px;
@@ -499,35 +504,46 @@ h3 {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .connexion:hover {
     background-color: rgb(12, 93, 255);
 }
-.connexion:active{
-    background-color: rgb(1, 13, 254);;
+
+.connexion:active {
+    background-color: rgb(1, 13, 254);
+    ;
 }
-.connexion.danger:hover{
+
+.connexion.danger:hover {
     background-color: rgb(255, 66, 66);
 }
-.connexion.danger:active{
+
+.connexion.danger:active {
     background-color: red;
 }
+
 .extra {
     margin-top: 15px;
 }
+
 .extra a {
     color: rgb(60, 125, 254);
     font-size: 14px;
     text-decoration: none;
     transition: color 0.3s;
 }
+
 .extra a:hover {
-    color: rgb(12, 93, 255);;
+    color: rgb(12, 93, 255);
+    ;
 }
+
 .message {
     margin-top: 15px;
     font-size: 14px;
     color: red;
 }
+
 /* Formulaire Create account*/
 .create-account-box {
     width: 70%;
@@ -541,11 +557,13 @@ h3 {
     font-family: 'Roboto', sans-serif;
     text-align: center;
 }
+
 .create-account-box h2 {
     margin-bottom: 20px;
     font-size: 24px;
     color: #333;
 }
+
 .option-login {
     width: 100%;
     padding: 8px 10px;
@@ -556,8 +574,10 @@ h3 {
     box-sizing: border-box;
     transition: border-color 0.3s;
 }
+
 .option-login:focus {
-    border-color: rgb(12, 93, 255);;
+    border-color: rgb(12, 93, 255);
+    ;
 }
 
 /* Couleur de fond pour chaque type de box -----------------------------------------------*/
@@ -610,34 +630,61 @@ h3 {
 .border-bottom-event:focus {
     border-bottom: solid var(--color_event) 2px;
 }
+
 /* Footer ----------------------------------------------------------------*/
 .simple-footer {
-    background-color: rgb(105, 105, 230); /* Fond violet clair */
+    background-color: rgb(105, 105, 230);
+    /* Fond violet clair */
     margin-left: 80px;
     padding: 20px;
     text-align: center;
-    border-top: 1px solid #aaa; /* Ligne discrète pour séparer le footer */
+    border-top: 1px solid #aaa;
+    /* Ligne discrète pour séparer le footer */
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
-    color: white; /* Couleur du texte adaptée pour contraster avec le fond */
-  }
+    color: white;
+    /* Couleur du texte adaptée pour contraster avec le fond */
+}
 
-  .simple-footer .footer-content ul {
+.simple-footer .footer-content ul {
     list-style-type: none;
     padding: 0;
     margin: 10px 0;
-  }
+}
 
-  .simple-footer .footer-content ul li {
+.simple-footer .footer-content ul li {
     margin: 5px 0;
-  }
+}
 
-  .simple-footer a {
-    color: #ffff99; /* Couleur jaune clair pour les liens */
+.simple-footer a {
+    color: #ffff99;
+    /* Couleur jaune clair pour les liens */
     text-decoration: none;
     transition: color 0.3s ease;
-  }
+}
 
-  .simple-footer a:hover {
-    color: #ffcc33; /* Jaune doré légèrement plus foncé au survol */
-  }
+.simple-footer a:hover {
+    color: #ffcc33;
+    /* Jaune doré légèrement plus foncé au survol */
+}
+
+/* Define the grid container */
+form.add_class {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* 5 columns */
+    grid-template-rows: repeat(10, 1fr); /* 10 rows */
+    gap: 10px; /* Optional: space between grid items */
+}
+
+/* Define the grid items */
+.add_class select {
+    border: 1px solid black;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Place the second element under the first one */
+.add_class select:nth-child(2) {
+    grid-column: 1; /* First column */
+    grid-row: 2; /* Second row */
+}
