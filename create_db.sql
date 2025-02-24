@@ -83,5 +83,3 @@ CREATE TABLE IF NOT EXISTS hidden_events (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (event_id) REFERENCES events(id)
 );
-
-INSERT INTO users (nom, prenom, e_mail,mot_de_passe, classe, o_s, o_c, groupe, cours_dispenses, isBillingue) VALUES ('ADMIN', 'admin', 'admin@eduvaud.ch','admin', '3M8', 'Maths et Physique', 'Informatique', 'A','', 'oui'  )

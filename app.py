@@ -1,12 +1,14 @@
 from flask import Flask, request, render_template, redirect,url_for, session, flash
 from datetime import * 
 from contextlib import contextmanager
+import bcrypt
 import sqlite3
 import locale
 try:
     locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
 except locale.Error:
     locale.setlocale(locale.LC_TIME, "C")
+
 
 
 # Création du serveur
@@ -19,7 +21,7 @@ DB = 'database.db'
 
 @contextmanager
 def connect_db():
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DB)
     try:
         cur = conn.cursor()
         cur.execute('PRAGMA foreign_keys = ON')
@@ -32,10 +34,10 @@ def connect_db():
         conn.commit()
     finally:
         conn.close()
-
     return
 
 jours_semaine = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
+
 horaire_3M8 = [
     # Lundi
     ["Philosophie", "Philosophie", "Géographie", "Géographie", "Pause", "Pause", "Français", "Français", "OC", ""],
@@ -64,12 +66,6 @@ periodes = [
     "15:20-16:05", 
     "16:05-16:50"
 ]
-
-
-
-
-
-
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -620,6 +616,27 @@ def parametres():
 def essai():
     return render_template("essai.html")
 
+@app.route("/new_class", methods=["GET"])
+def new_class():
+    return render_template("add_class.html")
+
+@app.route("/add_class", methods=["POST"])
+def add_class():
+    class_name = request.form['class_name']
+    with connect_db() as cur:
+        cur.execute("SELECT * FROM horaires WHERE classe = ?", (class_name,))
+        data = cur.fetchall()
+        if data:
+            flash("Classe déjà existante")
+            return redirect(url_for('new_class'))
+        else:
+            for jour in range (1,6):
+                for periode in range (1,11):
+                    matiere = request.form[str(jour) + ";" + str(periode)]
+                    cur.execute("INSERT INTO horaires (classe, jour, periode, matiere) VALUES (?,?,?,?)", (class_name, jour, periode, matiere))
+        return redirect(url_for('new_class'))
+            
+
 #-Gestion du Compte-------------------------------------------------------------
 
 @app.route("/creat_account", methods=["POST"])
@@ -627,7 +644,7 @@ def creat_account():
     nom = request.form["nom"]
     prenom = request.form["prenom"]
     e_mail = request.form["e_mail"]
-    mot_de_passe= request.form["mot_de_passe"]
+    mot_de_passe= request.form["mot_de_passe"].encode('utf-8')
     classe = request.form["classe"]
     o_s = request.form["o_s"]
     o_c = request.form["o_c"]
@@ -645,11 +662,14 @@ def creat_account():
 
     if nom == "ADMIN":
         flash(" Dommage Frommage !!!")
-        return redirect(url_for('new_account'))  
+        return redirect(url_for('new_account'))
+
+    salt = bcrypt.gensalt()
+    hashed_mot_de_passe = bcrypt.hashpw(mot_de_passe, salt)  
 
     # Crée un nouvel utilisateur
     with connect_db() as cur:
-        cur.execute('INSERT INTO users (nom, prenom, e_mail,mot_de_passe, classe, o_s, o_c, groupe, cours_dispenses, isBillingue) VALUES (?,?,?,?,?,?,?,?,?,?)', (nom, prenom, e_mail,mot_de_passe,classe, o_s, o_c, groupe, cours_dispenses, isBillingue))
+        cur.execute('INSERT INTO users (nom, prenom, e_mail,mot_de_passe, classe, o_s, o_c, groupe, cours_dispenses, isBillingue) VALUES (?,?,?,?,?,?,?,?,?,?)', (nom, prenom, e_mail,hashed_mot_de_passe,classe, o_s, o_c, groupe, cours_dispenses, isBillingue))
     
     # Selectionne l'id du nouvel utilisateur 
     with connect_db() as cur:
@@ -709,7 +729,7 @@ def logout():
 @app.route("/try_login", methods=["POST"])
 def try_login():
     e_mail_login = request.form["e_mail"]
-    mot_de_passe_login = request.form ["mot_de_passe"]
+    mot_de_passe_login = request.form ['mot_de_passe'].encode('utf-8')
     with connect_db() as cur:
         cur.execute("SELECT * FROM users WHERE e_mail = ?",(e_mail_login, ))
         data_user = cur.fetchall()
@@ -717,13 +737,13 @@ def try_login():
                       for id, nom, prenom, e_mail, mot_de_passe,classe, o_s, o_c, groupe, cours_dispenses, isBillingue in data_user]
     
     if data_user == []:
-        flash("Nom d'utilisateur ou mot de passe incorrect.")
+        flash("Nom d'utilisateur ou mot de passe incorrect. user")
         return redirect(url_for("login"))
 
     # Selectionne la première et unique liste de data_user pour avoir le dictionnaire 
     data_user = data_user[0]
 
-    if data_user["mot_de_passe"] == mot_de_passe_login:
+    if  bcrypt.checkpw(mot_de_passe_login, data_user["mot_de_passe"]):
         session["id"] = data_user["id"]
         session["loggedin"] = True
         session["nom"]= data_user["nom"]
@@ -738,7 +758,7 @@ def try_login():
         return redirect(url_for("index"))
 
     else:
-        flash("Nom d'utilisateur ou mot de passe incorrect.")
+        flash("Nom d'utilisateur ou mot de passe incorrect. mdp")
         return redirect(url_for("login"))
 
 
@@ -1025,8 +1045,14 @@ def delete_all_events():
 #--- AU CAS OU --------------------
 @app.route('/MAJ', methods= ["GET"])
 def maj():
-    #with connect_db() as cur:
-    #    cur.execute("DROP TABLE users")
+    with connect_db() as cur:
+        cur.execute("SELECT * FROM users WHERE nom = 'ADMIN' ")
+        data_user = cur.fetchall()
+        if data_user == []:
+            salt = bcrypt.gensalt()
+            hashed_mot_de_passe = bcrypt.hashpw('admin'.encode('utf-8'), salt) 
+            cur.execute("INSERT INTO users (nom, prenom, e_mail,mot_de_passe, classe, o_s, o_c, groupe, cours_dispenses, isBillingue) VALUES (?,?,?,?,?,?,?,?,?,?)", ("ADMIN","amdin","admin@eduvaud.ch",hashed_mot_de_passe,"3M8", "Maths et Physique", "Informatique", "A", "","non"))
+
      #   cur.execute("""CREATE TABLE IF NOT EXISTS users (
 #    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
  #   "nom" TEXT NOT NULL,
