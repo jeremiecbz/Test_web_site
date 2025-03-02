@@ -668,23 +668,23 @@ h3 {
     /* Jaune doré légèrement plus foncé au survol */
 }
 
-/* Define the grid container */
+
 form.add_class {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr); /* 5 columns */
-    grid-template-rows: repeat(10, 1fr); /* 10 rows */
-    gap: 10px; /* Optional: space between grid items */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
-
-/* Define the grid items */
-.add_class select {
-    border: 1px solid black;
-    padding: 20px;
-    text-align: center;
+.select-periode{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-height: 900px;
 }
-
-/* Place the second element under the first one */
-.add_class select:nth-child(2) {
-    grid-column: 1; /* First column */
-    grid-row: 2; /* Second row */
+.select-periode select{
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 1rem;
 }
