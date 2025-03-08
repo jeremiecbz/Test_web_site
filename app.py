@@ -645,9 +645,28 @@ def parametres():
 def essai():
     return render_template("essai.html")
 
-@app.route("/new_class", methods=["GET"])
+@app.route("/search_class", methods=["GET"])
+def search_class():
+    return render_template("search_class.html")
+
+@app.route("/new_class", methods=["POST"])
 def new_class():
-    return render_template("add_class.html")
+    classe_name = request.form['classe']
+    with connect_db() as cur:
+        cur.execute("SELECT * FROM horaires WHERE classe = ?", (classe_name,))
+        data = cur.fetchall()
+        if data == []:
+            classe = [["" for _ in range (10)] for _ in range(5)]
+            print(classe)
+            return render_template("add_class.html", classe = classe)
+        else:
+            classe = [[] for _ in range(5)]
+            for _, _, jour, periode, matiere in data:
+                jour = int(jour) - 1
+                periode = int(periode) - 1
+                classe[jour].append(matiere)
+            print(classe)   
+            return render_template("add_class.html", classe = classe, class_name = classe_name )
 
 @app.route("/add_class", methods=["POST"])
 def add_class():
@@ -656,14 +675,17 @@ def add_class():
         cur.execute("SELECT * FROM horaires WHERE classe = ?", (class_name,))
         data = cur.fetchall()
         if data:
-            flash("Classe déjà existante")
-            return redirect(url_for('new_class'))
+            for jour in range (1,6):
+                for periode in range (1,11):
+                    print(str(jour) + ";" + str(periode))
+                    matiere = request.form[str(jour) + ";" + str(periode)]
+                    cur.execute("UPDATE horaires SET matiere = ? WHERE classe = ? AND jour = ? AND periode = ?", (matiere, class_name, jour, periode))
         else:
             for jour in range (1,6):
                 for periode in range (1,11):
                     matiere = request.form[str(jour) + ";" + str(periode)]
                     cur.execute("INSERT INTO horaires (classe, jour, periode, matiere) VALUES (?,?,?,?)", (class_name, jour, periode, matiere))
-        return redirect(url_for('new_class'))
+        return redirect(url_for('index'))
             
 
 #-Gestion du Compte-------------------------------------------------------------
