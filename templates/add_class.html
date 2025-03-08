@@ -22,6 +22,7 @@
     <h1>Add a New Classe</h1>
     <form action="/add_class" method="post" class="add_class">
       <label for="class_name">Classe: {{ class_name}}</label>
+      <input type="hidden" id="class_name" name="class_name" value="{{ class_name }}">
       <div class="select-periode">
         {%for jour in range(1, 6)%}
         {% for periode in range (1,11) %}

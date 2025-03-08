@@ -203,10 +203,8 @@ def index():
         print(horaire_user)
 
         for _, _, jour, periode, matiere in data:
-            print(jour, periode, matiere)
             jour = int(jour) - 1  # On ajuste le jour de 1-5 à 0-4
             periode = int(periode) - 1
-            print
             horaire_user[jour][periode] = matiere
         horaire_user[5] = ["week-end", "Profitez du Week-end!!"]
         horaire_user[6] = ["week-end", "Profitez du Week-end!!"]
@@ -214,8 +212,6 @@ def index():
         print(horaire_user)
 
         horaire_jour = horaire_user[date_test.weekday()]
-        
-# Calculate the difference in weeks
 
         return render_template("Index.html", evenements = evenements, weeks = weeks, today = today, horaire_jour = horaire_jour, periodes = periodes, weeks_nb = weeks_nb, date_test = date_test, jour = jour)
 
@@ -648,6 +644,45 @@ def essai():
 @app.route("/search_class", methods=["GET"])
 def search_class():
     return render_template("search_class.html")
+
+@app.route("/show_class", methods=["POST"])
+def show_class():
+    date_test = datetime.today()
+    start_date = datetime.strptime("2024-11-04", "%Y-%m-%d")
+
+    class_name = request.form['classe']
+
+    weeks_nb = (date_test - start_date).days
+
+    horaire_jour = horaire_3M8[date_test.weekday()]
+
+    jour = jours_semaine[date_test.weekday()] +" "+ date_test.strftime("%d %B %Y")
+    jour = jour.replace("Ã©", "é").replace("Ã", "é")
+    jour = jour.replace(jour.split(" ")[1], jour.split(" ")[1].capitalize())
+
+
+    with connect_db() as cur:
+        cur.execute("""
+                SELECT * FROM horaires WHERE classe = ?
+                """, (class_name, ))
+        data = cur.fetchall()
+
+    if data == []:
+        horaire_jour = horaire_3M8[date_test.weekday()]
+        flash("Cette classe n'existe pas")
+        return redirect(url_for('search_class'))
+        
+    horaire_user = [[[] for _ in range(10)] for _ in range(7) ]
+    
+    for _, _, jour, periode, matiere in data:
+        jour = int(jour) - 1  # On ajuste le jour de 1-5 à 0-4
+        periode = int(periode) - 1
+        horaire_user[jour][periode] = matiere
+    horaire_user[5] = ["week-end", "Profitez du Week-end!!"]
+    horaire_user[6] = ["week-end", "Profitez du Week-end!!"]
+
+    print(horaire_user)
+    return render_template("Horaire_print.html", horaire_jour = horaire_user, class_name = class_name, periodes=periodes, date_test = date_test, jour = jour, weeks_nb = weeks_nb)
 
 @app.route("/new_class", methods=["POST"])
 def new_class():
