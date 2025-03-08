@@ -180,18 +180,42 @@ def index():
                 date_test -= timedelta(days=1)  # Soustraire 1 jour
             elif 'apres' in request.form:
                 date_test += timedelta(days=1)  # Ajouter 1 jour
+        
+        weeks_nb = (date_test - start_date).days
 
         horaire_jour = horaire_3M8[date_test.weekday()]
-        
-# Calculate the difference in weeks
-        weeks_nb = (date_test - start_date).days // 7
 
         jour = jours_semaine[date_test.weekday()] +" "+ date_test.strftime("%d %B %Y")
         jour = jour.replace("Ã©", "é").replace("Ã", "é")
         jour = jour.replace(jour.split(" ")[1], jour.split(" ")[1].capitalize())
 
 
+        with connect_db() as cur:
+            cur.execute("""
+                SELECT * FROM horaires WHERE classe = ?
+                """, (session['classe'], ))
+            data = cur.fetchall()
+            if data == []:
+                horaire_jour = horaire_3M8[date_test.weekday()]
+                flash("Veuillez ajouter les horaires de votre classe et vérifier que vous avez bien renseigné votre classe")
+                return render_template("Index.html", evenements = evenements, weeks = weeks, today = today, horaire_jour = horaire_jour, periodes = periodes, weeks_nb = weeks_nb, date_test = date_test, jour = jour)
+        horaire_user = [[[] for _ in range(10)] for _ in range(7) ]
+        print(horaire_user)
 
+        for _, _, jour, periode, matiere in data:
+            print(jour, periode, matiere)
+            jour = int(jour) - 1  # On ajuste le jour de 1-5 à 0-4
+            periode = int(periode) - 1
+            print
+            horaire_user[jour][periode] = matiere
+        horaire_user[5] = ["week-end", "Profitez du Week-end!!"]
+        horaire_user[6] = ["week-end", "Profitez du Week-end!!"]
+
+        print(horaire_user)
+
+        horaire_jour = horaire_user[date_test.weekday()]
+        
+# Calculate the difference in weeks
 
         return render_template("Index.html", evenements = evenements, weeks = weeks, today = today, horaire_jour = horaire_jour, periodes = periodes, weeks_nb = weeks_nb, date_test = date_test, jour = jour)
 
