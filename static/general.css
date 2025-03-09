@@ -688,3 +688,39 @@ form.add_class {
     outline: none;
     font-size: 1rem;
 }
+
+
+
+
+
+
+
+.tableau_horaire{
+    display: flex;
+    flex: 1;
+    gap: 1rem;
+    max-height: 900px;
+}
+.colonne{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.colonne_periode{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.colonne_horaire{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+}
+.cours{
+    height: 4rem;
+    margin: 0.5rem;
+    background-color: bisque;
+    border-radius: 1rem;
+    text-align: center;
+}

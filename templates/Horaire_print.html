@@ -1,69 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head> <!-- Infos de la page et métadonnées -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Accueil | Agenda {% if session.get('classe') %}
-          {{session.get('classe')}}
-          {%endif%}
-      
-        </title> <!-- Sera affiché dans l'onglet du navigateur-->
-      
-        <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}" />
-        <link rel="stylesheet" href="{{ url_for('static', filename='Styles/accueil.css') }}" />
-      
-        <link rel="icon" href="{{url_for('static', filename ='/Images/Suisse-drapeau.svg')}}" type="img/sbg">
-      
-        <link rel="preconnect" href="../https://fonts.googleapis.com">
-        <link rel="preconnect" href="../https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
-      </head>
+
+<head> <!-- Infos de la page et métadonnées -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accueil | Agenda {% if session.get('classe') %}
+    {{session.get('classe')}}
+    {%endif%}
+
+  </title> <!-- Sera affiché dans l'onglet du navigateur-->
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='Styles/accueil.css') }}" />
+
+  <link rel="icon" href="{{url_for('static', filename ='/Images/Suisse-drapeau.svg')}}" type="img/sbg">
+
+  <link rel="preconnect" href="../https://fonts.googleapis.com">
+  <link rel="preconnect" href="../https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
+</head>
 
 
 <body>
-    <header>
-        <h1>Voici l'horaire de la {{class_name}}</h1>
-    </header>
-    <main>
-        <div class="today-box">
-            <!-- Sous-Tableau gauche pour affichage Plan Journée-->
-            <h2 class="T-today">
-              <form class="T-today" method="post">
-                <input type="hidden" name="date_test" value="{{ date_test.strftime('%Y-%m-%d') }}">
-                <button class="change-day" type="submit" name="avant">
-                  < Avant</button>
-                    Aujourd'hui
-                    <button class="change-day" type="submit" name="apres">Après ></button>
-              </form>
-            </h2>
-            <div class="date-today">{{jour}} <b>S.{{weeks_nb}}</b></div>
-            <div class="sec-part">
-              {%for i in range (0,10)%}
-              {% if horaire_jour[i] != '' %}
-  
-              <div class="line">
-                <div class="periode"> P{{i+1}}
-                  <p class="heure-periode">{{periodes[i]}}</p>
-                </div>
-  
-                <div class="element ">
-                  {{horaire_jour[i]}}
+  <header>
+    <h1>Voici l'horaire de la {{class_name}}</h1>
+  </header>
+  <main>
+    <div>
+      <!-- Sous-Tableau gauche pour affichage Plan Journée-->
+      <div>{{jour}} <b>S.{{weeks_nb}}</b></div>
+      <div class="sec-part tableau_horaire">
+        {% for jour in range (0,6) %}
+        <div class="colonne">
+          {% for periode in range (1,11) %}
+          {% if jour == 0 %}
+          <div class="periode cours colonne_periode">P{{periode}}
+            <div class="heure-periode">
+              {{periodes[periode]}}</div>
+          </div>
+          {% else %}
+          <div class="cours">{{classe[jour-1][periode-1]}}</div>
 
-                </div>
-              </div>
-              
-              {%endif%}
-  
-                {%endfor%}
-  
-  
-            </div>
-          </div>  
-    
-    
-    </main>
-    <footer>
-        <p>&copy; 2023 Your Company</p>
-    </footer>
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+
+
+  </main>
+  <footer>
+    <p>&copy; 2023 Your Company</p>
+  </footer>
 </body>
+
 </html>

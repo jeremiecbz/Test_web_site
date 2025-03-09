@@ -105,41 +105,41 @@
             {% if horaire_jour[0] == 'week-end' %}
             {{horaire_jour[1]}}
             {%else%}
-            {%for i in range (0,10)%}
-            {% if horaire_jour[i] != '' %}
-            {% if not ( horaire_jour[i] == session["cours_dispenses"]
-            or (horaire_jour[i] == 'HistoireAll' and session['isBillingue'] == 'non') or (horaire_jour[i] ==
+            {%for periode in range (0,10)%}
+            {% if horaire_jour[periode] != '' %}
+            {% if not ( horaire_jour[periode] == session["cours_dispenses"]
+            or (horaire_jour[periode] == 'HistoireAll' and session['isBillingue'] == 'non') or (horaire_jour[periode] ==
             'HistoireFr'
             and session['isBillingue'] == 'oui')
-            or (horaire_jour[i] == 'TP' and ((weeks_nb % 4 == 0 and session['groupe']== 'A') or weeks_nb % 4 == 3 and
+            or (horaire_jour[periode] == 'TP' and ((weeks_nb % 4 == 0 and session['groupe']== 'A') or weeks_nb % 4 == 3 and
             session['groupe']== 'B' ))) %}
 
             <div class="line">
-              <div class="periode"> P{{i+1}}
-                <p class="heure-periode">{{periodes[i]}}</p>
+              <div class="periode"> P{{periode+1}}
+                <p class="heure-periode">{{periodes[periode]}}</p>
               </div>
 
               <div class="element 
-              {% if horaire_jour[i] == 'Pause'%}
+              {% if horaire_jour[periode] == 'Pause'%}
                 pause
               {% else %}
                 color-element
               {%endif%}">
-                {% if horaire_jour[i] == 'OC' %}
+                {% if horaire_jour[periode] == 'OC' %}
                 {{session['o_c']}}
 
-                {% elif horaire_jour[i] is not string %}
+                {% elif horaire_jour[periode] is not string %}
                 {% if session['groupe'] == 'A'%}
-                {{horaire_jour[i][0]}}
+                {{horaire_jour[periode][0]}}
 
                 {%else%}
-                {{horaire_jour[i][1]}}
+                {{horaire_jour[periode][1]}}
 
                 {%endif%}
-                {% elif horaire_jour[i][:8] == 'Histoire' %}
+                {% elif horaire_jour[periode][:8] == 'Histoire' %}
                 Histoire
 
-                {% elif horaire_jour[i] == 'TP' %}
+                {% elif horaire_jour[periode] == 'TP' %}
                 {% if (weeks_nb %2 == 1 and session['groupe']== 'A') or (weeks_nb % 2 == 0 and session['groupe'] ==
                 'B')%}
                 TP Physique
@@ -149,12 +149,8 @@
                 {%endif%}
 
 
-
-
-
-
                 {%else%}
-                {{horaire_jour[i]}}
+                {{horaire_jour[periode]}}
                 {%endif%}
               </div>
             </div>

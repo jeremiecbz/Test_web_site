@@ -111,6 +111,10 @@
           <div class="input-box">
             <label for="classe">Classe</label>
             <input type="text" id="classe" class="option-login" value="{{session['classe']}}" name="classe" required>
+            
+            <input type="hidden" id="class_name" name="class_name" value="{{ session['classe'] }}">
+            <button type="submit" formaction="/new_class">Modifier l'horraire de la classe</button>
+            
           </div>
 
           <div class="input-box">

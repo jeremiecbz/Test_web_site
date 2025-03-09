@@ -13,12 +13,17 @@
     <nav>
       <ul>
         <li><a href="{{url_for('index')}}">Home</a></li>
-        <li><a href="{{url_for('new_class')}}">Add Classe</a></li>
+        <li><a href="{{url_for('search_class')}}">Add Classe</a></li>
         <!-- Add other links as needed -->
       </ul>
     </nav>
   </header>
   <main>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <b>{{ messages[0] }}</b><br>
+    {% endif %}
+    {% endwith %}
     <h1>Add a New Classe</h1>
     <form action="/add_class" method="post" class="add_class">
       <label for="class_name">Classe: {{ class_name}}</label>
@@ -39,35 +44,26 @@
           "Français",
           "Géographie",
           "Philosophie",
-          "Histoire",
+          "HistoireFr",
           "HistoireAll",
           "Sport",
           "Biologie"
         ] %}
         {% set selected_option = classe[jour-1][periode-1] %}
         {% set id = jour ~';'~ periode %}
-
         <label for="{{id }}">{{ semaine[jour-1] }} P{{ periode }}</label>
         <select name="{{id}}" id="{{id}}">
           {% for option in options %}
-          <option value="{{ option }}" {% if option == selected_option %}selected{% endif %}>
+          <option value="{% if option =='Congée' %}{% else %}{{option}}{% endif %}" {% if option ==  selected_option %} selected {% endif %}>
             {{ option }}
           </option>
           {% endfor %}
         </select>
         {% endfor %}
         {% endfor %}
-
-        
       </div>
       <button type="submit">Add Classe</button>
     </form>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <b>{{ messages[0] }}</b><br>
-    {% endif %}
-    {% endwith %}
-
   </main>
   <footer>
     <p>&copy; 2023 Mon Site Raspberry</p>

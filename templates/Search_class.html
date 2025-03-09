@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Class</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Class</title>
 </head>
+
 <body>
-    <h1>Search for a Class</h1>
-    <form action="" method="post">
-        <label for="classe">Enter Classe:</label>
-        <input type="text" id="classe" name="classe" placeholder="e.g., 3M8" required>
-        <button type="submit" formaction="/new_class">Search</button>
-        <button type="submit" formaction="/show_class">Show</button>
-    </form>
+  <h1>Search for a Class</h1>
+  <form action="" method="post">
+    <label for="class_name">Enter Classe:</label>
+    <input type="text" id="class_name" name="class_name" placeholder="e.g., 3M8" required>
+    {% if session['nom'] == "ADMIN" %}
+    <button type="submit" formaction="/new_class">Modifier</button>
+    {% endif %}
+    <button type="submit" formaction="/show_class">Show</button>
+  </form>
 </body>
+
 </html>

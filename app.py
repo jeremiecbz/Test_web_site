@@ -200,8 +200,7 @@ def index():
                 flash("Veuillez ajouter les horaires de votre classe et vérifier que vous avez bien renseigné votre classe")
                 return render_template("Index.html", evenements = evenements, weeks = weeks, today = today, horaire_jour = horaire_jour, periodes = periodes, weeks_nb = weeks_nb, date_test = date_test, jour = jour)
         horaire_user = [[[] for _ in range(10)] for _ in range(7) ]
-        print(horaire_user)
-
+        
         for _, _, jour, periode, matiere in data:
             jour = int(jour) - 1  # On ajuste le jour de 1-5 à 0-4
             periode = int(periode) - 1
@@ -209,9 +208,9 @@ def index():
         horaire_user[5] = ["week-end", "Profitez du Week-end!!"]
         horaire_user[6] = ["week-end", "Profitez du Week-end!!"]
 
-        print(horaire_user)
-
         horaire_jour = horaire_user[date_test.weekday()]
+
+        print(horaire_jour)
 
         return render_template("Index.html", evenements = evenements, weeks = weeks, today = today, horaire_jour = horaire_jour, periodes = periodes, weeks_nb = weeks_nb, date_test = date_test, jour = jour)
 
@@ -648,13 +647,8 @@ def search_class():
 @app.route("/show_class", methods=["POST"])
 def show_class():
     date_test = datetime.today()
-    start_date = datetime.strptime("2024-11-04", "%Y-%m-%d")
 
-    class_name = request.form['classe']
-
-    weeks_nb = (date_test - start_date).days
-
-    horaire_jour = horaire_3M8[date_test.weekday()]
+    class_name = request.form['class_name']
 
     jour = jours_semaine[date_test.weekday()] +" "+ date_test.strftime("%d %B %Y")
     jour = jour.replace("Ã©", "é").replace("Ã", "é")
@@ -668,9 +662,9 @@ def show_class():
         data = cur.fetchall()
 
     if data == []:
-        horaire_jour = horaire_3M8[date_test.weekday()]
         flash("Cette classe n'existe pas")
-        return redirect(url_for('search_class'))
+        classe = [["" for _ in range (10)] for _ in range(5)]
+        return render_template("add_class.html", class_name = class_name,classe = classe )
         
     horaire_user = [[[] for _ in range(10)] for _ in range(7) ]
     
@@ -682,26 +676,26 @@ def show_class():
     horaire_user[6] = ["week-end", "Profitez du Week-end!!"]
 
     print(horaire_user)
-    return render_template("Horaire_print.html", horaire_jour = horaire_user, class_name = class_name, periodes=periodes, date_test = date_test, jour = jour, weeks_nb = weeks_nb)
+    return render_template("Horaire_print.html", classe = horaire_user, class_name = class_name, periodes=periodes)
 
-@app.route("/new_class", methods=["POST"])
+@app.route("/new_class", methods=["POST", "GET"])
 def new_class():
-    classe_name = request.form['classe']
+    class_name = request.form['class_name']
     with connect_db() as cur:
-        cur.execute("SELECT * FROM horaires WHERE classe = ?", (classe_name,))
+        cur.execute("SELECT * FROM horaires WHERE classe = ?", (class_name,))
         data = cur.fetchall()
         if data == []:
             classe = [["" for _ in range (10)] for _ in range(5)]
-            print(classe)
-            return render_template("add_class.html", classe = classe)
+            print("data_vide")
+            return render_template("add_class.html", classe = classe, class_name = class_name )
         else:
             classe = [[] for _ in range(5)]
             for _, _, jour, periode, matiere in data:
                 jour = int(jour) - 1
                 periode = int(periode) - 1
                 classe[jour].append(matiere)
-            print(classe)   
-            return render_template("add_class.html", classe = classe, class_name = classe_name )
+            print(classe)
+            return render_template("add_class.html", classe = classe, class_name = class_name )
 
 @app.route("/add_class", methods=["POST"])
 def add_class():
@@ -712,7 +706,6 @@ def add_class():
         if data:
             for jour in range (1,6):
                 for periode in range (1,11):
-                    print(str(jour) + ";" + str(periode))
                     matiere = request.form[str(jour) + ";" + str(periode)]
                     cur.execute("UPDATE horaires SET matiere = ? WHERE classe = ? AND jour = ? AND periode = ?", (matiere, class_name, jour, periode))
         else:
